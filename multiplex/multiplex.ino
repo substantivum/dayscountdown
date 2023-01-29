@@ -8,7 +8,7 @@ const int columnLength = sizeof(columns)/sizeof(int);
 const int rowLength = sizeof(rows)/sizeof(int);
 
 int bitmap1[rowLength][columnLength] = {
-    {1, 0},
+    {0, 1},
     {1, 0},
     {1, 1},
 };
@@ -19,6 +19,8 @@ void SelectRow(int row, bool turnOffOthers = true);
 void SelectColumn(int column, bool turnOffOthers = true);
 void SetColumnState(int column, int state);
 void SetRowState(int row, int state);
+void ClearRows();
+void ClearColumns();
 void ClearScreen();
 
 void setup(){
@@ -40,9 +42,10 @@ void ShowBitmap(int bitmap[rowLength][columnLength]) {
     for (int i = 0; i < rowLength; i++) {
         SelectRow(i);
         for (int j = 0; j < columnLength; j++) {
-            SetColumnState(i, bitmap[i][j]);
+            SetColumnState(j, bitmap[i][j]);
         }
         delay(2);
+        ClearColumns();
     }
 }
 
@@ -69,7 +72,7 @@ void SelectColumn(int column, bool turnOffOthers = true) {
 void SetColumnState(int column, int state) {
     for (int i = 0; i < columnLength; i++) {
         if (i == column) {
-            digitalWrite(columns[i], state);
+            digitalWrite(columns[i], !state);
             break;
         }
     }
@@ -84,12 +87,19 @@ void SetRowState(int row, int state) {
     }
 }
 
-void ClearScreen() {
+void ClearRows() {
     for (int i = 0; i < rowLength; i++) {
         digitalWrite(rows[i], !ROW_ON);
     }
+}
 
+void ClearColumns() {
     for (int i = 0; i < columnLength; i++) {
         digitalWrite(columns[i], !COLUMN_ON);
     }
+}
+
+void ClearScreen() {
+    ClearRows();
+    ClearColumns();
 }
