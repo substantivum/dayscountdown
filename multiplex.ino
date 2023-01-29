@@ -1,20 +1,26 @@
-
 #define COLUMN_ON LOW
 #define ROW_ON HIGH
 
-int columns[];
-int rows[];
+int columns[]  = {8, 9};
+int rows[]  = {2, 3, 4};
 int columnLength = sizeof(columns)/sizeof(int);
 int rowLength = sizeof(rows)/sizeof(int);
 
 int bitmap1[][] = {
     {1, 0},
     {1, 0},
-    {1, 0},
+    {1, 1},
 };
 
 void setup(){
-
+    for (int i = 0; i < rowLength; i++) {
+        pinMode(rows[i], OUTPUT);
+        digitalWrite(rows[i], !ROW_ON);
+    }
+    for (int i = 0; i < columnLength; i++) {
+        pinMode(columns[i], OUTPUT);
+        digitalWrite(columns[i], !COLUMN_ON);
+    }
 }
 
 void loop() {
