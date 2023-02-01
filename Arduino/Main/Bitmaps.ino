@@ -1,4 +1,4 @@
-byte ZERO[5][3]= {
+byte ZERO[5][3] = {
   {0,1,0},
   {1,0,1},
   {0,0,0},
@@ -81,34 +81,34 @@ byte NINE[5][3]= {
 void SetBitmap(int number, byte bitmap[rowLength][columnLength]) {
   switch (number) {
     case 0:
-      memcpy(ZERO, bitmap, sizeof(bitmap));
+      memcpy(bitmap, ZERO, sizeof(bitmap));
       break;
     case 1:
-      memcpy(ONE, bitmap, sizeof(bitmap));
+      memcpy(bitmap, ONE, sizeof(bitmap));
       break;
     case 2:
-      memcpy(TWO, bitmap, sizeof(bitmap));
+      memcpy(bitmap, TWO, sizeof(bitmap));
       break;
     case 3:
-      memcpy(THREE, bitmap, sizeof(bitmap));
+      memcpy(bitmap, THREE, sizeof(bitmap));
       break;
     case 4:
-      memcpy(FOUR, bitmap, sizeof(bitmap));
+      memcpy(bitmap, FOUR, sizeof(bitmap));
       break;
     case 5:
-      memcpy(FIVE, bitmap, sizeof(bitmap));
+      memcpy(bitmap, FIVE, sizeof(bitmap));
       break;
     case 6:
-      memcpy(SIX, bitmap, sizeof(bitmap));
+      memcpy(bitmap, SIX, sizeof(bitmap));
       break;
     case 7:
-      memcpy(SEVEN, bitmap, sizeof(bitmap));
+      memcpy(bitmap, SEVEN, sizeof(bitmap));
       break;
     case 8:
-      memcpy(EIGHT, bitmap, sizeof(bitmap));
+      memcpy(bitmap, EIGHT, sizeof(bitmap));
       break;
     case 9:
-      memcpy(NINE, bitmap, sizeof(bitmap));
+      memcpy(bitmap, NINE, sizeof(bitmap));
       break;
   }
 }
