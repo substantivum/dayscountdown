@@ -10,22 +10,30 @@ void ThingerSetupFunction () {
 
     thing.add_wifi(SSID, SSID_PASSWORD);
 
-    thing["data"] = [](pson& in, pson& out){
+    thing["dateIn"] = [](pson& in, pson& out){
         if(!in.is_empty()) {
-            numberOfDays = (int)in["numberOfDays"];
-            arrowDir = (int)in["arrowDir"];
+            int nd = (int) in["date"];
+            int ad = (int) in["arrow"];
 
-            Serial.print((float)in["numberOfDays"]);
-            Serial.print(" Number of days: ");
-            Serial.print(numberOfDays);
-            Serial.print(" Arrow direction: ");
-            Serial.println(arrowDir);
+            out["status"] = "Success";
+            out["inDate"] = nd; // Send back recieved data
+            out["inArrow"] = ad;
             
-            UpdateDigits();
-
-            out = "Success";
+            NewCountdownRecieved(nd, ad);
+        } else {
+          out["status"] = "Error";
         }
     };
+
+    Serial.print("Connecting to WiFi");
+    thing.handle();
+    while (WiFi.status() != WL_CONNECTED) {
+      Serial.print(".");
+      delay(500);
+    }
+    Serial.println("");
+    Serial.print("Connected to WiFi network with IP Address: ");
+    Serial.println(WiFi.localIP());
 }
 
 void ThingerLoopFunction () {
@@ -34,7 +42,7 @@ void ThingerLoopFunction () {
 
 /* Example data
 {
-"arrowDir": 0,
-"numberOfDays": 5
-}
+    "date": 16,
+    "arrow": 1
+} 
 */
