@@ -5,15 +5,17 @@ unsigned long long dateTimer = millis();
 unsigned long long dateTimerDelay = 3.6 * pow(10, 6);
 bool HasDateChanged() {
   if ((millis() - dateTimer) > dateTimerDelay) {
+    Serial.println("Getting current day!");
     int day = GetCurrentDay();
     
-    if (day > -1 && day != currentDayOfTheWeek) {
-      currentDayOfTheWeek = day;
+    if (day > -1 && day != currentDay) {
+      currentDay = day;
       Serial.print("Day changed: ");
       Serial.println(day);
       return true;
     }
 
+    Serial.println("Not a new day!");
     dateTimer = millis();
   }
 
@@ -27,7 +29,6 @@ int GetCurrentDay() {
   if (WiFi.status() == WL_CONNECTED) {//(thing.is_connected()) {
       //Client _client = thing.get_client();
       String request = HttpGETRequest(apiURL);
-      Serial.println(request);
 
       JSONVar jsonRequest = JSON.parse(request);
 
@@ -36,8 +37,8 @@ int GetCurrentDay() {
         return -1;
       }
 
-      Serial.print("JSON object = ");
-      Serial.println(jsonRequest);
+      Serial.print("Retrieved day of the month: ");
+      Serial.println(jsonRequest["day_of_year"]);
 
       return jsonRequest["day_of_year"];
     } else {

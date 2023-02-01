@@ -78,37 +78,55 @@ byte NINE[5][3]= {
   {0,1,0}
 };
 
-void SetBitmap(int number, byte bitmap[rowLength][columnLength]) {
+void SetBitmap() {
+  byte temp[1][5][3];
+
+  // Second number (screen)
+  for (int row = 0; row < rowLength; row++) {
+    for (int column = 0; column < columnLength/2; column++) {
+      int bitmapi1[2] = {row, column};
+      int bitmapi2[2] = {row, column + 3};
+      int numberi[2] = {row, column};
+      _SetBitmapIndex(numberOfDays[0], bitmap, bitmapi1, numberi);
+      _SetBitmapIndex(numberOfDays[1], bitmap, bitmapi2, numberi);
+    }
+  }
+}
+
+void _SetBitmapIndex(int number, byte bitmap[rowLength][columnLength], int bitmapi[2], int numberi[2]) {
   switch (number) {
     case 0:
-      memcpy(bitmap, ZERO, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = ZERO[numberi[0]][numberi[1]];
       break;
     case 1:
-      memcpy(bitmap, ONE, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = ONE[numberi[0]][numberi[1]];
       break;
     case 2:
-      memcpy(bitmap, TWO, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = TWO[numberi[0]][numberi[1]];
       break;
     case 3:
-      memcpy(bitmap, THREE, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = THREE[numberi[0]][numberi[1]];
       break;
     case 4:
-      memcpy(bitmap, FOUR, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = FOUR[numberi[0]][numberi[1]];
       break;
     case 5:
-      memcpy(bitmap, FIVE, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = FIVE[numberi[0]][numberi[1]];
       break;
     case 6:
-      memcpy(bitmap, SIX, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = SIX[numberi[0]][numberi[1]];
       break;
     case 7:
-      memcpy(bitmap, SEVEN, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = SEVEN[numberi[0]][numberi[1]];
       break;
     case 8:
-      memcpy(bitmap, EIGHT, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = EIGHT[numberi[0]][numberi[1]];
       break;
     case 9:
-      memcpy(bitmap, NINE, sizeof(bitmap));
+      bitmap[bitmapi[0]][bitmapi[1]] = NINE[numberi[0]][numberi[1]];
+      break;
+    default:
+      bitmap[bitmapi[0]][bitmapi[1]] = ZERO[numberi[0]][numberi[1]];
       break;
   }
 }
@@ -116,9 +134,13 @@ void SetBitmap(int number, byte bitmap[rowLength][columnLength]) {
 void PrintBitmap(byte bitmap[rowLength][columnLength]) {
   for (int i = 0; i < rowLength; i++) {
     for (int j = 0; j < columnLength; j++) {
+      if (j % 3 == 0)
+      {
+        Serial.print("| ");
+      }
       Serial.print(bitmap[i][j]);
       Serial.print(" ");
     }
-    Serial.println();
+    Serial.println("|");
   }
 }
