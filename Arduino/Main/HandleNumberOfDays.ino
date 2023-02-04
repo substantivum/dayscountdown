@@ -1,4 +1,8 @@
 void NewCountdownRecieved(int days, int arrow) {
+  if (days > 99) {
+    return;
+  }
+
   // Save the new values
   arrowRight = arrow;
   _numberOfDays = days;
@@ -10,7 +14,7 @@ void NewCountdownRecieved(int days, int arrow) {
   // Print the bitmaps to the serial output
   Serial.print("Days left: ");
   Serial.print(numberOfDays[0]);
-  Serial.print(":");
+  Serial.print(" ");
   Serial.println(numberOfDays[1]);
   Serial.print("Arrow Dir: ");
   Serial.println(arrowRight);

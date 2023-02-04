@@ -1,12 +1,16 @@
 #include <ThingerESP32.h>
 
-#define COLUMN_ON LOW
-#define ROW_ON HIGH
-
-int columns[]  = {2, 2, 2, 2, 2, 2};
-int rows[]  = {2, 2, 2, 2, 2};
+#define COLUMN_ON HIGH
+#define ROW_ON LOW
+#define ARROW_ON HIGH
+ 
+int columns[]  = {14, 12, 13, 21, 19, 18};
+int rows[]  = {27, 26, 25, 33, 32};
 const int columnLength = sizeof(columns)/sizeof(int);
 const int rowLength = sizeof(rows)/sizeof(int);
+
+int arrowsPositive[] = {4, 2};
+int arrowsNegative[] = {15, 0};
 
 byte bitmap[rowLength][columnLength];
 int numberOfDays[] = {0,0}; // Split the number into two digits
@@ -24,6 +28,12 @@ void setup(){
   for (int i = 0; i < columnLength; i++) {
       pinMode(columns[i], OUTPUT);
   }
+  for (int i = 0; i < 2; i++) {
+    pinMode(arrowsPositive[i], OUTPUT);
+    pinMode(arrowsNegative[i], OUTPUT);
+    digitalWrite(arrowsPositive[i], !ARROW_ON);
+    digitalWrite(arrowsNegative[i], !ARROW_ON);
+  }
 
   // Clear both screens
   ClearScreen(rows, columns);
@@ -31,6 +41,8 @@ void setup(){
   ThingerSetupFunction();
 
   currentDay = GetCurrentDay();
+
+  NewCountdownRecieved(_numberOfDays, 1);
 }
 
 void loop() {
@@ -40,10 +52,13 @@ void loop() {
     NewCountdownRecieved(_numberOfDays, arrowRight);
   }
 
-  ThingerLoopFunction();
-
   // Show the screen
   DisplayDaysOnScreen();
+
+  // Check if we should change arrow direction
+  HandleArrow();
+
+  ThingerLoopFunction();
 }
 
 
